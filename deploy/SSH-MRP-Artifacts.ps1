@@ -39,6 +39,7 @@ if (Get-Module -ListAvailable -Name AzureRM)
     }
 
 # NuGet is required to be installed for Posh-SSH
+# This causes and issue in the release.  Install-PackageProvider NuGet requires an interactive window and obviously that won't work.  I am searching for a work around here.
 if (Get-PackageProvider -ListAvailable -Name "NuGet")
     {
         Write-Host "NuGet is already installed"
@@ -78,7 +79,7 @@ $dropDirectory = "./ROOT_DEPLOY_DIRECTORY/drop"
 New-SFTPItem -SFTPSession $session -ItemType Directory $deployDirectory -Verbose
 New-SFTPItem -SFTPSession $session -ItemType Directory $dropDirectory -Verbose
 
-# uploaded the files 
+# Uploaded the files - I have not tested past this point as of yet.  I will do so tomorrow and update comments as necessary.
 Set-SFTPFile -SFTPSession $session -LocalFile $buildName/MongoRecords.js -RemotePath $deployDirectory/MongoRecords.js
 Set-SFTPFile -SFTPSession $session -LocalFile $buildName/deploy_mrp_app.sh -RemotePath $deployDirectory/deploy_mrp_app.sh
 Set-SFTPFile -SFTPSession $session -LocalFile $buildName/drop/Backend/IntegrationService/build/libs/* -RemotePath $dropDirectory
