@@ -57,7 +57,7 @@ $plinkContent = $plinkContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
 Set-Content -Path $plinkFile -Value $plinkContent
 
 #Generate KeyFile
-echo $sshPrivateKey > sshPrivateKey.ppk
+Set-Content -Encoding UTF8 -Value "$sshPrivateKey" -Path sshPrivateKey.ppk
 # Copy files and execute MRP deployment shell script
 echo n | & .\psftp.exe $sshUser@$sshTarget -i sshPrivateKey.ppk -b $sftpFile 
 echo n | & .\plink.exe $sshUser@$sshTarget -i sshPrivateKey.ppk -m $plinkFile
