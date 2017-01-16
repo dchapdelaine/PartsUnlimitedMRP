@@ -9,8 +9,7 @@ Param(
 )
 
 cd $PSScriptRoot
-$ErrorActionPreference = "SilentlyContinue"
-Get-Location | Write-Host
+Write-Host "Local folder is $(Get-Location)"
 
 
 # Get plink and psftp
@@ -63,7 +62,6 @@ Set-Content -Path $plinkFile -Value $plinkContent
 $context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyStorageAccountName -StorageAccountKey $sshPrivateKeyStorageAccountKey
 Get-AzureStorageBlobContent -Blob $sshPrivateKeyBlobName -Container $sshPrivateKeyContainerName -Destination sshPrivateKey.ppk -Context $context
 
-Write-Host "Test"
+$ErrorActionPreference=SilentlyContinue
 echo n | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile
-Write-Host "plink"
 echo n | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
