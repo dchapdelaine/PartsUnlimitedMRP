@@ -32,15 +32,15 @@ mkdir ROOT_DEPLOY_DIRECTORY
 cd ROOT_DEPLOY_DIRECTORY
 mkdir deploy
 cd deploy
-put ./ARTIFACT_DIRECTORY/deploy/MongoRecords.js
-put ./ARTIFACT_DIRECTORY/deploy/deploy_mrp_app.sh
+put ./MongoRecords.js
+put ./deploy_mrp_app.sh
 chmod 755 deploy_mrp_app.sh
 cd ..
 mkdir drop
 cd drop
-put -r ./ARTIFACT_DIRECTORY/drop/Backend/IntegrationService/build/libs/
-put -r ./ARTIFACT_DIRECTORY/drop/Backend/OrderService/build/libs/
-put -r ./ARTIFACT_DIRECTORY/drop/Clients/build/libs/
+put -r ./../drop/Backend/IntegrationService/build/libs/
+put -r ./../drop/Backend/OrderService/build/libs/
+put -r ./../drop/Clients/build/libs/
 chmod 755 ./*
 '@
 $sftpContent = $sftpContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
@@ -63,7 +63,6 @@ $context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyStorageAcco
 Get-AzureStorageBlobContent -Blob $sshPrivateKeyBlobName -Container $sshPrivateKeyContainerName -Destination sshPrivateKey.ppk -Context $context
 
 Write-Host "Test"
-Start-Sleep 1
 echo n | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile
 Write-Host "plink"
 echo n | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
