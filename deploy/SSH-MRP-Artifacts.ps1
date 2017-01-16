@@ -56,8 +56,9 @@ sudo bash ./deploy_mrp_app.sh
 $plinkContent = $plinkContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
 Set-Content -Path $plinkFile -Value $plinkContent
 
-#Generate KeyFile
-Set-Content -Encoding UTF8 -Value "$sshPrivateKey" -Path sshPrivateKey.ppk
+#Generate KeyFile. Use WriteAllText to avoid unwanted newline at the end of the file.
+$currentPath = (Get-Location).Path
+[io.file]::WriteAllText("$currentPath\sshPrivateKey.ppk","$sshPrivateKey")
 # Copy files and execute MRP deployment shell script
 echo n | & .\psftp.exe $sshUser@$sshTarget -i sshPrivateKey.ppk -b $sftpFile 
 echo n | & .\plink.exe $sshUser@$sshTarget -i sshPrivateKey.ppk -m $plinkFile
