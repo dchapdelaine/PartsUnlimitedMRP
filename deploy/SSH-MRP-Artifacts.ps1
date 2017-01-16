@@ -2,7 +2,10 @@
 Param(
     [Parameter(Mandatory=$True)] [string] $sshTarget,
 	[Parameter(Mandatory=$True)] [string] $sshUser,
-    [Parameter(Mandatory=$True)] [string] $sshPrivateKey
+    [Parameter(Mandatory=$True)] [string] $sshPrivateKeyStorageAccountName,
+    [Parameter(Mandatory=$True)] [string] $sshPrivateKeyContainerName,
+    [Parameter(Mandatory=$True)] [string] $sshPrivateKeyBlobName,
+    [Parameter(Mandatory=$True)] [string] $sshPrivateKeyStorageAccountKey
 )
 
 $ErrorActionPreference = "Stop"
@@ -56,15 +59,13 @@ sudo bash ./deploy_mrp_app.sh
 $plinkContent = $plinkContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
 Set-Content -Path $plinkFile -Value $plinkContent
 
-#Generate KeyFile. Use WriteAllText to avoid unwanted newline at the end of the file.
-$currentPath = $PSScriptRoot
-[io.file]::WriteAllText("$currentPath/sshPrivateKey.ppk","$sshPrivateKey")
-# Copy files and execute MRP deployment shell script
+$context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyContainerName -StorageAccountKey $sshPrivateKeyStorageAccountKey
+Get-AzureStorageBlobContent -Blob $sshPrivateKeyBlobName -Container $sshPrivateKeyContainerName -Destination sshPrivateKey.ppk -Context $context
 
 Write-Host "Path to file: $currentPath/sshPrivateKey.ppk"
-Get-Content "$currentPath/sshPrivateKey.ppk" | Write-Host
+Get-Content "sshPrivateKey.ppk" | Write-Host
 
 Write-Host "psftp"
-echo n | & .\psftp.exe $sshUser@$sshTarget -i "$currentPath/sshPrivateKey.ppk" -b $sftpFile 
+echo n | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile 
 Write-Host "plink"
-echo n | & .\plink.exe $sshUser@$sshTarget -i "$currentPath/sshPrivateKey.ppk" -m $plinkFile
+echo n | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
