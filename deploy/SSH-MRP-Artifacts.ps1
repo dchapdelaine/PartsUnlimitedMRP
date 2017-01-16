@@ -9,6 +9,7 @@ Param(
 )
 
 #$ErrorActionPreference = "Stop"
+Get-Path | Write-Host
 
 
 # Get plink and psftp
