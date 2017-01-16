@@ -9,7 +9,7 @@ Param(
 )
 
 cd $PSScriptRoot
-#$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "SilentlyContinue"
 Get-Location | Write-Host
 
 
