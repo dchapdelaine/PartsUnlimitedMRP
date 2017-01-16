@@ -62,9 +62,6 @@ Set-Content -Path $plinkFile -Value $plinkContent
 $context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyStorageAccountName -StorageAccountKey $sshPrivateKeyStorageAccountKey
 Get-AzureStorageBlobContent -Blob $sshPrivateKeyBlobName -Container $sshPrivateKeyContainerName -Destination sshPrivateKey.ppk -Context $context
 
-Write-Host "Path to file: $currentPath/sshPrivateKey.ppk"
-Get-Content "sshPrivateKey.ppk" | Write-Host
-
 Write-Host "psftp"
 echo y | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile 
 Write-Host "plink"
