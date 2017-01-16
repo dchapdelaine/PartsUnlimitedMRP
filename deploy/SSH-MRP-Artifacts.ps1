@@ -66,6 +66,6 @@ Write-Host "Path to file: $currentPath/sshPrivateKey.ppk"
 Get-Content "sshPrivateKey.ppk" | Write-Host
 
 Write-Host "psftp"
-echo n | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile 
+echo y | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile 
 Write-Host "plink"
-echo n | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
+echo y | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
