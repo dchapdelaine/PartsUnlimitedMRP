@@ -57,7 +57,7 @@ $plinkContent = $plinkContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
 Set-Content -Path $plinkFile -Value $plinkContent
 
 #Generate KeyFile. Use WriteAllText to avoid unwanted newline at the end of the file.
-$currentPath = (Get-Location).Path
+$currentPath = $PSScriptRoot
 [io.file]::WriteAllText("$currentPath/sshPrivateKey.ppk","$sshPrivateKey")
 # Copy files and execute MRP deployment shell script
 
