@@ -8,6 +8,7 @@ Param(
     [Parameter(Mandatory=$True)] [string] $sshPrivateKeyStorageAccountKey
 )
 
+cd $PSScriptRoot
 #$ErrorActionPreference = "Stop"
 Get-Location | Write-Host
 
@@ -45,7 +46,6 @@ put -r ./../drop/Clients/build/libs/
 chmod 755 ./*
 '@
 $sftpContent = $sftpContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
-$sftpContent = $sftpContent.Replace('ARTIFACT_DIRECTORY',$buildName)
 Set-Content -Path $sftpFile -Value $sftpContent
 
 
