@@ -8,7 +8,7 @@ Param(
     [Parameter(Mandatory=$True)] [string] $sshPrivateKeyStorageAccountKey
 )
 
-$ErrorActionPreference = "Stop"
+#$ErrorActionPreference = "Stop"
 
 
 # Get plink and psftp
@@ -62,7 +62,8 @@ Set-Content -Path $plinkFile -Value $plinkContent
 $context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyStorageAccountName -StorageAccountKey $sshPrivateKeyStorageAccountKey
 Get-AzureStorageBlobContent -Blob $sshPrivateKeyBlobName -Container $sshPrivateKeyContainerName -Destination sshPrivateKey.ppk -Context $context
 
-Write-Host "psftp"
-echo y | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile 
+Write-Host "Test"
+Start-Sleep 1
+echo n | & .\psftp.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -b $sftpFile
 Write-Host "plink"
-echo y | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
+echo n | & .\plink.exe $sshUser@$sshTarget -i "sshPrivateKey.ppk" -m $plinkFile
