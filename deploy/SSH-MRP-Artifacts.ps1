@@ -61,7 +61,10 @@ $currentPath = (Get-Location).Path
 [io.file]::WriteAllText("$currentPath\\sshPrivateKey.ppk","$sshPrivateKey")
 # Copy files and execute MRP deployment shell script
 
-Get-Content sshPrivateKey.ppk | Write-Host
+Write-Host "Path to file: $currentPath\\sshPrivateKey.ppk"
+Get-Content "$currentPath\\sshPrivateKey.ppk" | Write-Host
 
-echo n | & .\psftp.exe $sshUser@$sshTarget -i sshPrivateKey.ppk -b $sftpFile 
-echo n | & .\plink.exe $sshUser@$sshTarget -i sshPrivateKey.ppk -m $plinkFile
+Write-Host "psftp"
+echo n | & .\psftp.exe $sshUser@$sshTarget -i "$currentPath\\sshPrivateKey.ppk" -b $sftpFile 
+Write-Host "plink"
+echo n | & .\plink.exe $sshUser@$sshTarget -i "$currentPath\\sshPrivateKey.ppk" -m $plinkFile
