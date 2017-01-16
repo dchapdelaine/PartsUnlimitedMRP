@@ -58,13 +58,13 @@ Set-Content -Path $plinkFile -Value $plinkContent
 
 #Generate KeyFile. Use WriteAllText to avoid unwanted newline at the end of the file.
 $currentPath = (Get-Location).Path
-[io.file]::WriteAllText("$currentPath\\sshPrivateKey.ppk","$sshPrivateKey")
+[io.file]::WriteAllText("$currentPath/sshPrivateKey.ppk","$sshPrivateKey")
 # Copy files and execute MRP deployment shell script
 
-Write-Host "Path to file: $currentPath\\sshPrivateKey.ppk"
-Get-Content "$currentPath\\sshPrivateKey.ppk" | Write-Host
+Write-Host "Path to file: $currentPath/sshPrivateKey.ppk"
+Get-Content "$currentPath/sshPrivateKey.ppk" | Write-Host
 
 Write-Host "psftp"
-echo n | & .\psftp.exe $sshUser@$sshTarget -i "$currentPath\\sshPrivateKey.ppk" -b $sftpFile 
+echo n | & .\psftp.exe $sshUser@$sshTarget -i "$currentPath/sshPrivateKey.ppk" -b $sftpFile 
 Write-Host "plink"
-echo n | & .\plink.exe $sshUser@$sshTarget -i "$currentPath\\sshPrivateKey.ppk" -m $plinkFile
+echo n | & .\plink.exe $sshUser@$sshTarget -i "$currentPath/sshPrivateKey.ppk" -m $plinkFile
