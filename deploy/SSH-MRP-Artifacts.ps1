@@ -59,7 +59,7 @@ sudo bash ./deploy_mrp_app.sh
 $plinkContent = $plinkContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
 Set-Content -Path $plinkFile -Value $plinkContent
 
-$context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyContainerName -StorageAccountKey $sshPrivateKeyStorageAccountKey
+$context = New-AzureStorageContext -StorageAccountName $sshPrivateKeyStorageAccountName -StorageAccountKey $sshPrivateKeyStorageAccountKey
 Get-AzureStorageBlobContent -Blob $sshPrivateKeyBlobName -Container $sshPrivateKeyContainerName -Destination sshPrivateKey.ppk -Context $context
 
 Write-Host "Path to file: $currentPath/sshPrivateKey.ppk"
